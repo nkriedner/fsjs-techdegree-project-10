@@ -1,21 +1,40 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Courses = () => {
+    // create state for courses data
+    const [courses, setCourses] = useState(null);
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            // fetch courses data from the api
+            const response = await fetch("http://localhost:5000/api/courses");
+            // parse the json data into an array of objects
+            const json = await response.json();
+
+            // check if the data is ok
+            if (response.ok) {
+                setCourses(json);
+            }
+        };
+
+        fetchCourses();
+    }, []);
+
     return (
         <main>
+            {courses && console.log("courses:", courses)}
+
             <div className="wrap main--grid">
-                <Link className="course--module course--link" to="course-detail.html">
-                    <h2 className="course--label">Course</h2>
-                    <h3 className="course--title">Build a Basic Bookcase</h3>
-                </Link>
-                <Link className="course--module course--link" to="course-detail.html">
-                    <h2 className="course--label">Course</h2>
-                    <h3 className="course--title">Learn How to Program</h3>
-                </Link>
-                <Link className="course--module course--link" to="course-detail.html">
-                    <h2 className="course--label">Course</h2>
-                    <h3 className="course--title">Learn How to Test Programs</h3>
-                </Link>
+                {courses &&
+                    courses.map((course) => {
+                        return (
+                            <Link key={course.id} className="course--module course--link" to="/course-detail">
+                                <h2 className="course--label">Course</h2>
+                                <h3 className="course--title">{course.title}</h3>
+                            </Link>
+                        );
+                    })}
                 <Link className="course--module course--add--module" to="/courses/create">
                     <span className="course--add--title">
                         <svg
