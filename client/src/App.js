@@ -4,6 +4,7 @@ import "./App.css";
 
 // Import components
 import Header from "./components/Header";
+import Courses from "./components/Courses";
 
 function App() {
     // create state for courses data
@@ -28,6 +29,7 @@ function App() {
     return (
         <div className="App">
             <Header />
+            <Courses />
 
             {courses && console.log("courses:", courses)}
 
