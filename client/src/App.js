@@ -7,6 +7,7 @@ import Courses from "./components/Courses";
 import CreateCourse from "./components/CreateCourse";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
+import UpdateCourse from "./components/UpdateCourse";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Courses />} />
                 <Route path="/courses/create" element={<CreateCourse />} />
+                <Route path="/courses/:id/update" element={<UpdateCourse />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
             </Routes>
