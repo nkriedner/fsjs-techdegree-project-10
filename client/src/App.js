@@ -5,6 +5,8 @@ import "./App.css";
 import Header from "./components/Header";
 import Courses from "./components/Courses";
 import CreateCourse from "./components/CreateCourse";
+import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
 
 function App() {
     return (
@@ -13,10 +15,9 @@ function App() {
             <Routes>
                 <Route path="/" element={<Courses />} />
                 <Route path="/courses/create" element={<CreateCourse />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
             </Routes>
-
-            {/* when there are courses -> present the title of the courses */}
-            {/* {courses && courses.map((course) => <p key={course.id}>{course.title}</p>)} */}
         </BrowserRouter>
     );
 }
