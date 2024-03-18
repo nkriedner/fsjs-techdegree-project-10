@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
 // Import components
@@ -27,15 +27,17 @@ function App() {
     }, []);
 
     return (
-        <div className="App">
+        <BrowserRouter>
             <Header />
-            <Courses />
+            <Routes>
+                <Route path="/" element={<Courses />} />
+            </Routes>
 
             {courses && console.log("courses:", courses)}
 
             {/* when there are courses -> present the title of the courses */}
-            {courses && courses.map((course) => <p key={course.id}>{course.title}</p>)}
-        </div>
+            {/* {courses && courses.map((course) => <p key={course.id}>{course.title}</p>)} */}
+        </BrowserRouter>
     );
 }
 
