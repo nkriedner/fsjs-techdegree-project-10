@@ -29,13 +29,13 @@ const Courses = () => {
                 {courses &&
                     courses.map((course) => {
                         return (
-                            <Link key={course.id} className="course--module course--link" to="/course-detail">
+                            <Link key={course.id} className="course--module course--link" to={`courses/${course.id}`}>
                                 <h2 className="course--label">Course</h2>
                                 <h3 className="course--title">{course.title}</h3>
                             </Link>
                         );
                     })}
-                <Link className="course--module course--add--module" to="/courses/create">
+                <Link className="course--module course--add--module" to="courses/create">
                     <span className="course--add--title">
                         <svg
                             version="1.1"
