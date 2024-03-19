@@ -29,7 +29,7 @@ const CourseDetail = () => {
                 <>
                     <div className="actions--bar">
                         <div className="wrap">
-                            <Link className="button" to="/">
+                            <Link className="button" to={`/courses/${course.id}/update`}>
                                 Update Course
                             </Link>
                             <Link className="button" to="/">
