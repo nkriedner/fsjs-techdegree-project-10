@@ -1,4 +1,9 @@
+import { Link, useParams } from "react-router-dom";
+
 const UpdateCourse = () => {
+    // Access the parameters from the URL
+    let { id } = useParams();
+
     return (
         <main>
             <div className="wrap">
@@ -53,7 +58,9 @@ const UpdateCourse = () => {
                     <button className="button" type="submit">
                         Update Course
                     </button>
-                    <button className="button button-secondary">Cancel</button>
+                    <Link to={`/courses/${id}`}>
+                        <button className="button button-secondary">Cancel</button>
+                    </Link>
                 </form>
             </div>
         </main>
