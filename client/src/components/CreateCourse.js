@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const CreateCourse = () => {
     // Set state for form data & errors
@@ -95,7 +96,9 @@ const CreateCourse = () => {
                     <button className="button" type="submit">
                         Create Course
                     </button>
-                    <button className="button button-secondary">Cancel</button>
+                    <Link to="/">
+                        <button className="button button-secondary">Cancel</button>
+                    </Link>
                 </form>
             </div>
         </main>
