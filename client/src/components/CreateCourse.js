@@ -14,7 +14,7 @@ const CreateCourse = () => {
         const newCourse = { courseTitle, courseDescription, estimatedTime, materialsNeeded };
 
         // POST the new course
-        const response = await fetch("/api/courses", {
+        const response = await fetch("http://localhost:5000/api/courses", {
             method: "POST",
             body: JSON.stringify(newCourse),
             headers: {

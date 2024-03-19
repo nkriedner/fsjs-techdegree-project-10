@@ -24,6 +24,19 @@ const CourseDetail = () => {
         fetchCourse();
     }, []);
 
+    // Handle the click on the "Delete Course" button
+    const handleClick = async () => {
+        const response = await fetch("http://localhost:5000/api/courses/" + id, {
+            method: "DELETE",
+        });
+
+        // const json = await response.json();
+
+        console.log("response:", response);
+
+        // console.log("Deleted course:", course);
+    };
+
     return (
         <main>
             {course && (
@@ -33,7 +46,7 @@ const CourseDetail = () => {
                             <Link className="button" to={`/courses/${course.id}/update`}>
                                 Update Course
                             </Link>
-                            <Link className="button" to="/">
+                            <Link className="button" to="/" onClick={handleClick}>
                                 Delete Course
                             </Link>
                             <Link className="button button-secondary" to="/">
