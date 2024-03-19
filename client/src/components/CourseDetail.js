@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import Markdown from "react-markdown";
 
 const CourseDetail = () => {
     // create state for course data
@@ -51,10 +52,7 @@ const CourseDetail = () => {
                                         By {course.user.firstName} {course.user.lastName}
                                     </p>
 
-                                    {/* render each line of the course description as a <p> tag */}
-                                    {course.description.split("\n\n").map((line, index) => (
-                                        <p key={index}>{line}</p>
-                                    ))}
+                                    <Markdown>{course.description}</Markdown>
                                 </div>
                                 <div>
                                     <h3 className="course--detail--title">Estimated Time</h3>
@@ -62,12 +60,7 @@ const CourseDetail = () => {
 
                                     <h3 className="course--detail--title">Materials Needed</h3>
                                     <ul className="course--detail--list">
-                                        {/* render each line of the course.materialsNeeded in a <li> tag (if data exists) */}
-                                        {course.materialsNeeded &&
-                                            course.materialsNeeded
-                                                .split("* ")
-                                                .filter((item) => item.trim() !== "")
-                                                .map((item, index) => <li key={index}>{item.trim()}</li>)}
+                                        <Markdown>{course.materialsNeeded}</Markdown>
                                     </ul>
                                 </div>
                             </div>
