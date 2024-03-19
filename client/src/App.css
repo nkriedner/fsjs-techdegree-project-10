@@ -243,3 +243,8 @@ textarea:focus {
         display: inline-block;
     }
 }
+
+/* My Styles */
+nav a.active {
+    color: #fff;
+}
