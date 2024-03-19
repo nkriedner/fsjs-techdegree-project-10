@@ -17,7 +17,7 @@ const SignIn = () => {
                     <button className="button button-secondary">Cancel</button>
                 </form>
                 <p>
-                    Don't have a user account? Click here to <NavLink href="/signup">sign up</NavLink>!
+                    Don't have a user account? Click here to <NavLink to="/signup">sign up</NavLink>!
                 </p>
             </div>
         </main>
