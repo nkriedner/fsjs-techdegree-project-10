@@ -23,7 +23,7 @@ const Courses = () => {
 
     return (
         <main>
-            {courses && console.log("courses:", courses)}
+            {/* {courses && console.log("courses:", courses)} */}
 
             <div className="wrap main--grid">
                 {courses &&
