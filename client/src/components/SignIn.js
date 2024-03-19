@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const SignIn = () => {
     return (
@@ -17,7 +17,7 @@ const SignIn = () => {
                     <button className="button button-secondary">Cancel</button>
                 </form>
                 <p>
-                    Don't have a user account? Click here to <Link href="/signup">sign up</Link>!
+                    Don't have a user account? Click here to <NavLink href="/signup">sign up</NavLink>!
                 </p>
             </div>
         </main>
