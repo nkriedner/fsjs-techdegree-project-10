@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import Markdown from "react-markdown";
+import UserContext from "../context/UserContext";
 
 const CourseDetail = () => {
+    const { authUser } = useContext(UserContext);
     // create state for course data
     const [course, setCourse] = useState(null);
     // Access the parameters from the URL
@@ -43,12 +45,16 @@ const CourseDetail = () => {
                 <>
                     <div className="actions--bar">
                         <div className="wrap">
-                            <Link className="button" to={`/courses/${course.id}/update`}>
-                                Update Course
-                            </Link>
-                            <Link className="button" to="/" onClick={handleClick}>
-                                Delete Course
-                            </Link>
+                            {authUser && authUser.id === course.id && (
+                                <>
+                                    <Link className="button" to={`/courses/${course.id}/update`}>
+                                        Update Course
+                                    </Link>
+                                    <Link className="button" to="/" onClick={handleClick}>
+                                        Delete Course
+                                    </Link>
+                                </>
+                            )}
                             <Link className="button button-secondary" to="/">
                                 Return to List
                             </Link>
