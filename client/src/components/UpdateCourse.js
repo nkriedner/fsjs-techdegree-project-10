@@ -22,7 +22,7 @@ const UpdateCourse = () => {
         };
 
         fetchCourse();
-    }, []);
+    });
 
     // Handle changes in the input & textarea values
     const handleChange = (e) => {

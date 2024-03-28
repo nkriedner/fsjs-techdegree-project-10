@@ -1,7 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
-const SignUp = () => {
+const UserSignUp = () => {
+    const { actions } = useContext(UserContext);
     const navigate = useNavigate();
 
     // State
@@ -34,6 +36,8 @@ const SignUp = () => {
             const response = await fetch("http://localhost:5000/api/users", fetchOptions);
             if (response.status === 201) {
                 console.log(`${user.firstName} ${user.lastName} is successfully signed up and authenticated!`);
+                await actions.signIn(user);
+                navigate("/");
             } else if (response.status === 400) {
                 const data = await response.json();
                 setErrors(data.errors);
@@ -87,4 +91,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default UserSignUp;

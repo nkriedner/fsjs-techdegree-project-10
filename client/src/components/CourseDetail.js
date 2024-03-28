@@ -22,7 +22,7 @@ const CourseDetail = () => {
         };
 
         fetchCourse();
-    }, []);
+    });
 
     // Handle the click on the "Delete Course" button
     const handleClick = async () => {
