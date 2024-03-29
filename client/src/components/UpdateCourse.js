@@ -1,8 +1,16 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState, useContext, useRef } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 const UpdateCourse = () => {
+    const { authUser } = useContext(UserContext);
+    const navigate = useNavigate();
+
     // create state for course data
+    const courseTitle = useRef(null);
+    const courseDescription = useRef(null);
+    const estimatedTime = useRef(null);
+    const materialsNeeded = useRef(null);
     const [course, setCourse] = useState(null);
 
     // Access the parameters from the URL
@@ -24,24 +32,35 @@ const UpdateCourse = () => {
         fetchCourse();
     });
 
-    // Handle changes in the input & textarea values
-    const handleChange = (e) => {
-        // destructure the name and value from the input
-        const { name, value } = e.target;
-        // set the updated course data in state
-        setCourse({
-            ...course,
-            [name]: value,
-        });
-    };
-
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("Updated course data:", course);
+        const updatedCourse = {
+            userId: authUser.id,
+            title: courseTitle.current.value,
+            description: courseDescription.current.value,
+            estimatedTime: estimatedTime.current.value,
+            materialsNeeded: materialsNeeded.current.value,
+        };
 
-        // TODO -> Update form data
+        const encodedCredentials = btoa(`${authUser.emailAddress}:${authUser.password}`);
+
+        // Update the new course
+        const response = await fetch("http://localhost:5000/api/courses/" + id, {
+            method: "PUT",
+            body: JSON.stringify(updatedCourse),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Basic ${encodedCredentials}`,
+            },
+        });
+
+        const json = await response.json;
+
+        console.log("Updated course data:", json);
+
+        navigate(`/courses/${id}`);
     };
 
     return (
@@ -59,7 +78,7 @@ const UpdateCourse = () => {
                                     type="text"
                                     name="title"
                                     defaultValue={course.title}
-                                    onChange={handleChange}
+                                    ref={courseTitle}
                                 />
 
                                 <p>By Joe Smith</p>
@@ -69,7 +88,7 @@ const UpdateCourse = () => {
                                     id="courseDescription"
                                     name="description"
                                     defaultValue={course.description}
-                                    onChange={handleChange}
+                                    ref={courseDescription}
                                 ></textarea>
                             </div>
                             <div>
@@ -79,7 +98,7 @@ const UpdateCourse = () => {
                                     type="text"
                                     name="estimatedTime"
                                     defaultValue={course.estimatedTime}
-                                    onChange={handleChange}
+                                    ref={estimatedTime}
                                 />
 
                                 <label htmlFor="materialsNeeded">Materials Needed</label>
@@ -87,7 +106,7 @@ const UpdateCourse = () => {
                                     id="materialsNeeded"
                                     name="materialsNeeded"
                                     defaultValue={course.materialsNeeded}
-                                    onChange={handleChange}
+                                    ref={materialsNeeded}
                                 ></textarea>
                             </div>
                         </div>
