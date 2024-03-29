@@ -11,6 +11,7 @@ import UserSignOut from "./components/UserSignOut";
 import UpdateCourse from "./components/UpdateCourse";
 import CourseDetail from "./components/CourseDetail";
 import NotFound from "./components/NotFound";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
     return (
@@ -18,12 +19,14 @@ function App() {
             <Header />
             <Routes>
                 <Route path="/" element={<Courses />} />
-                <Route path="courses/create" element={<CreateCourse />} />
                 <Route path="courses/:id" element={<CourseDetail />} />
-                <Route path="courses/:id/update" element={<UpdateCourse />} />
                 <Route path="signin" element={<UserSignIn />} />
                 <Route path="signup" element={<UserSignUp />} />
                 <Route path="signout" element={<UserSignOut />} />
+                <Route element={<PrivateRoute />}>
+                    <Route path="courses/create" element={<CreateCourse />} />
+                    <Route path="courses/:id/update" element={<UpdateCourse />} />
+                </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
