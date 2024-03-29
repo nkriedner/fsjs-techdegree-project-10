@@ -19,6 +19,7 @@ export const UserProvider = (props) => {
 
         if (response.status === 200) {
             const user = await response.json();
+            user.password = credentials.password;
             setAuthUser(user);
             return user;
         } else if (response.status === 401) {
