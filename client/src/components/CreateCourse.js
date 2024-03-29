@@ -1,9 +1,10 @@
 import { useState, useContext, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
 const CreateCourse = () => {
     const { authUser } = useContext(UserContext);
+    const navigate = useNavigate();
     // Set state for form data & errors
     const courseTitle = useRef(null);
     const courseDescription = useRef(null);
@@ -48,6 +49,8 @@ const CreateCourse = () => {
             // setMaterialsNeeded("");
 
             console.log("New course added:", json);
+
+            navigate("/");
         }
     };
 
