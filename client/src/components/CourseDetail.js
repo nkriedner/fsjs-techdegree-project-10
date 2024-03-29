@@ -28,8 +28,13 @@ const CourseDetail = () => {
 
     // Handle the click on the "Delete Course" button
     const handleClick = async () => {
+        const encodedCredentials = btoa(`${authUser.emailAddress}:${authUser.password}`);
+
         const response = await fetch("http://localhost:5000/api/courses/" + id, {
             method: "DELETE",
+            headers: {
+                Authorization: `Basic ${encodedCredentials}`,
+            },
         });
 
         // const json = await response.json();
@@ -45,7 +50,7 @@ const CourseDetail = () => {
                 <>
                     <div className="actions--bar">
                         <div className="wrap">
-                            {authUser && authUser.id === course.id && (
+                            {authUser && authUser.id === course.userId && (
                                 <>
                                     <Link className="button" to={`/courses/${course.id}/update`}>
                                         Update Course

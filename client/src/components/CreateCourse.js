@@ -1,18 +1,28 @@
-import { useState } from "react";
+import { useState, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 const CreateCourse = () => {
+    const { authUser } = useContext(UserContext);
     // Set state for form data & errors
-    const [courseTitle, setCourseTitle] = useState("");
-    const [courseDescription, setCourseDescription] = useState("");
-    const [estimatedTime, setEstimatedTime] = useState("");
-    const [materialsNeeded, setMaterialsNeeded] = useState("");
+    const courseTitle = useRef(null);
+    const courseDescription = useRef(null);
+    const estimatedTime = useRef(null);
+    const materialsNeeded = useRef(null);
     const [errors, setErrors] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const newCourse = { courseTitle, courseDescription, estimatedTime, materialsNeeded };
+        const newCourse = {
+            userId: authUser.id,
+            title: courseTitle.current.value,
+            description: courseDescription.current.value,
+            estimatedTime: estimatedTime.current.value,
+            materialsNeeded: materialsNeeded.current.value,
+        };
+
+        const encodedCredentials = btoa(`${authUser.emailAddress}:${authUser.password}`);
 
         // POST the new course
         const response = await fetch("http://localhost:5000/api/courses", {
@@ -20,6 +30,7 @@ const CreateCourse = () => {
             body: JSON.stringify(newCourse),
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Basic ${encodedCredentials}`,
             },
         });
 
@@ -31,10 +42,10 @@ const CreateCourse = () => {
         }
         if (response.ok) {
             // reset the form fields and error values
-            setCourseTitle("");
-            setCourseDescription("");
-            setEstimatedTime("");
-            setMaterialsNeeded("");
+            // setCourseTitle("");
+            // setCourseDescription("");
+            // setEstimatedTime("");
+            // setMaterialsNeeded("");
 
             console.log("New course added:", json);
         }
@@ -60,37 +71,23 @@ const CreateCourse = () => {
                     <div className="main--flex">
                         <div>
                             <label htmlFor="courseTitle">Course Title</label>
-                            <input
-                                id="courseTitle"
-                                type="text"
-                                value={courseTitle}
-                                onChange={(e) => setCourseTitle(e.target.value)}
-                            />
+                            <input id="courseTitle" name="courseTitle" type="text" ref={courseTitle} />
 
                             <p>By (add logged in user name)</p>
 
                             <label htmlFor="courseDescription">Course Description</label>
                             <textarea
                                 id="courseDescription"
-                                value={courseDescription}
-                                onChange={(e) => setCourseDescription(e.target.value)}
+                                name="courseDescription"
+                                ref={courseDescription}
                             ></textarea>
                         </div>
                         <div>
                             <label htmlFor="estimatedTime">Estimated Time</label>
-                            <input
-                                id="estimatedTime"
-                                type="text"
-                                value={estimatedTime}
-                                onChange={(e) => setEstimatedTime(e.target.value)}
-                            />
+                            <input id="estimatedTime" name="estimatedTime" type="text" ref={estimatedTime} />
 
                             <label htmlFor="materialsNeeded">Materials Needed</label>
-                            <textarea
-                                id="materialsNeeded"
-                                value={materialsNeeded}
-                                onChange={(e) => setMaterialsNeeded(e.target.value)}
-                            ></textarea>
+                            <textarea id="materialsNeeded" name="materialsNeeded" ref={materialsNeeded}></textarea>
                         </div>
                     </div>
                     <button className="button" type="submit">
