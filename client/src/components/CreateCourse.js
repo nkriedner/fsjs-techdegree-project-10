@@ -1,5 +1,5 @@
 import { useState, useContext, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
 const CreateCourse = () => {
@@ -10,7 +10,7 @@ const CreateCourse = () => {
     const courseDescription = useRef(null);
     const estimatedTime = useRef(null);
     const materialsNeeded = useRef(null);
-    const [errors, setErrors] = useState(null);
+    const [errors, setErrors] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,50 +25,59 @@ const CreateCourse = () => {
 
         const encodedCredentials = btoa(`${authUser.emailAddress}:${authUser.password}`);
 
-        // POST the new course
-        const response = await fetch("http://localhost:5000/api/courses", {
+        const fetchOptions = {
             method: "POST",
             body: JSON.stringify(newCourse),
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json; charset=utf-8",
                 Authorization: `Basic ${encodedCredentials}`,
             },
-        });
+        };
 
-        const json = await response.json;
+        try {
+            // POST the new course
+            const response = await fetch("http://localhost:5000/api/courses", fetchOptions);
 
-        // if there is a problem with the response
-        if (!response.ok) {
-            setErrors(json.error); // set the error received from the response
+            console.log("New course - response.status:", response.status);
+
+            if (response.status === 201) {
+                navigate("/");
+            } else if (response.status === 500) {
+                navigate("/error");
+            } else if (response.status === 400) {
+                const responseJson = await response.json();
+                setErrors(responseJson.errors);
+            } else if (response.status === 404) {
+                navigate("/notfound");
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            console.log(error);
+            navigate("/error");
         }
-        if (response.ok) {
-            // reset the form fields and error values
-            // setCourseTitle("");
-            // setCourseDescription("");
-            // setEstimatedTime("");
-            // setMaterialsNeeded("");
+    };
 
-            console.log("New course added:", json);
-
-            navigate("/");
-        }
+    const handleCancel = (e) => {
+        e.preventDefault();
+        navigate("/");
     };
 
     return (
         <main>
             <div className="wrap">
                 <h2>Create Course</h2>
-
                 {/* Show Validation errors if there are any */}
-                {errors && (
+                {errors.length ? (
                     <div className="validation--errors">
                         <h3>Validation Errors</h3>
                         <ul>
-                            <li>Please provide a value for "Title"</li>
-                            <li>Please provide a value for "Description"</li>
+                            {errors.map((error, i) => (
+                                <li key={i}>{error}!</li>
+                            ))}
                         </ul>
                     </div>
-                )}
+                ) : null}
 
                 <form onSubmit={handleSubmit}>
                     <div className="main--flex">
@@ -96,9 +105,9 @@ const CreateCourse = () => {
                     <button className="button" type="submit">
                         Create Course
                     </button>
-                    <Link to="/">
-                        <button className="button button-secondary">Cancel</button>
-                    </Link>
+                    <button className="button button-secondary" onClick={handleCancel}>
+                        Cancel
+                    </button>
                 </form>
             </div>
         </main>

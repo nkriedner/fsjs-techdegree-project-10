@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext, useRef } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
 const UpdateCourse = () => {
@@ -12,6 +12,7 @@ const UpdateCourse = () => {
     const estimatedTime = useRef(null);
     const materialsNeeded = useRef(null);
     const [course, setCourse] = useState(null);
+    const [errors, setErrors] = useState([]);
 
     // Access the parameters from the URL
     let { id } = useParams();
@@ -46,20 +47,41 @@ const UpdateCourse = () => {
 
         const encodedCredentials = btoa(`${authUser.emailAddress}:${authUser.password}`);
 
-        // Update the new course
-        const response = await fetch("http://localhost:5000/api/courses/" + id, {
+        const fetchOptions = {
             method: "PUT",
             body: JSON.stringify(updatedCourse),
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json; charset=utf-8",
                 Authorization: `Basic ${encodedCredentials}`,
             },
-        });
+        };
 
-        const json = await response.json;
+        try {
+            // Update the new course
+            const response = await fetch("http://localhost:5000/api/courses/" + id, fetchOptions);
 
-        console.log("Updated course data:", json);
+            console.log("Updated course - response.status:", response.status);
 
+            if (response.status === 204) {
+                navigate(`/courses/${id}`);
+            } else if (response.status === 500) {
+                navigate("/error");
+            } else if (response.status === 400) {
+                const responseJson = await response.json();
+                setErrors(responseJson.errors);
+            } else if (response.status === 404) {
+                navigate("/notfound");
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            console.log(error);
+            navigate("/error");
+        }
+    };
+
+    const handleCancel = (e) => {
+        e.preventDefault();
         navigate(`/courses/${id}`);
     };
 
@@ -69,6 +91,19 @@ const UpdateCourse = () => {
             {course && (
                 <div className="wrap">
                     <h2>Update Course</h2>
+
+                    {/* Show Validation errors if there are any */}
+                    {errors.length ? (
+                        <div className="validation--errors">
+                            <h3>Validation Errors</h3>
+                            <ul>
+                                {errors.map((error, i) => (
+                                    <li key={i}>{error}!</li>
+                                ))}
+                            </ul>
+                        </div>
+                    ) : null}
+
                     <form onSubmit={handleSubmit}>
                         <div className="main--flex">
                             <div>
@@ -113,9 +148,9 @@ const UpdateCourse = () => {
                         <button className="button" type="submit">
                             Update Course
                         </button>
-                        <Link to={`/courses/${id}`}>
-                            <button className="button button-secondary">Cancel</button>
-                        </Link>
+                        <button className="button button-secondary" onClick={handleCancel}>
+                            Cancel
+                        </button>
                     </form>
                 </div>
             )}
