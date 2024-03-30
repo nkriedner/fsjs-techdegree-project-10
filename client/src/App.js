@@ -12,6 +12,8 @@ import UpdateCourse from "./components/UpdateCourse";
 import CourseDetail from "./components/CourseDetail";
 import NotFound from "./components/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
+import Forbidden from "./components/Forbidden";
+import UnhandledError from "./components/UnhandledError";
 
 function App() {
     return (
@@ -27,6 +29,8 @@ function App() {
                     <Route path="courses/create" element={<CreateCourse />} />
                     <Route path="courses/:id/update" element={<UpdateCourse />} />
                 </Route>
+                <Route path="/forbidden" element={<Forbidden />} />
+                <Route path="/error" element={<UnhandledError />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
