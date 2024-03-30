@@ -1,4 +1,4 @@
-// IMPORT MODULES:
+// IMPORT REACT MODULES:
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // IMPORT CSS:
@@ -20,7 +20,7 @@ import UnhandledError from "./components/UnhandledError";
 
 function App() {
     return (
-        // Wrap whole App with BrowserRouter to use routing founctionalities:
+        // Wrap whole App with BrowserRouter to use routing founctionalities
         <BrowserRouter>
             <Header />
             <Routes>

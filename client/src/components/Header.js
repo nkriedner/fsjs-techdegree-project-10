@@ -1,8 +1,12 @@
+// IMPORT REACT MODULES:
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+
+// IMPORT (USER) CONTEXT:
 import UserContext from "../context/UserContext";
 
 const Header = () => {
+    // Access User Context:
     const { authUser } = useContext(UserContext);
 
     return (
@@ -13,8 +17,10 @@ const Header = () => {
                 </h1>
                 <nav>
                     <ul className="header--signedout">
+                        {/* Display navigation depending on user login: */}
                         {authUser === null ? (
                             <>
+                                {/* If there is no user logged in: */}
                                 <li>
                                     <NavLink to="/signup">Sign Up</NavLink>
                                 </li>
@@ -24,6 +30,7 @@ const Header = () => {
                             </>
                         ) : (
                             <>
+                                {/* IF there is a user logged in: */}
                                 <li>
                                     Welcome, {authUser.firstName} {authUser.lastName}!
                                 </li>

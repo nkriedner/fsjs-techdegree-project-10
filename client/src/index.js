@@ -1,14 +1,14 @@
-// IMPORT MODULES:
+// IMPORT REACT MODULES:
 import React from "react";
 import ReactDOM from "react-dom/client";
 
 // IMPORT CSS (css reset)
 import "./index.css";
 
-// IMPORT COMPONENTS:
+// IMPORT (APP) COMPONENT:
 import App from "./App";
 
-// IMPORT CONTEXT:
+// IMPORT (USER) CONTEXT:
 import { UserProvider } from "./context/UserContext";
 
 // CREATE ROOT & RENDER APP IN ROOT:
