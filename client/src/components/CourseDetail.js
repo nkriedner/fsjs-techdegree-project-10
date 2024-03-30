@@ -1,30 +1,53 @@
 import { useEffect, useState, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Markdown from "react-markdown";
 import UserContext from "../context/UserContext";
 
 const CourseDetail = () => {
     const { authUser } = useContext(UserContext);
+    const navigate = useNavigate();
     // create state for course data
     const [course, setCourse] = useState(null);
-    // Access the parameters from the URL
+    // Access the parameters from the URL param
     let { id } = useParams();
 
     useEffect(() => {
+        // FUNCTION FOR FETCHING COURSE DETAIL DATA:
         const fetchCourse = async () => {
-            // fetch courses data from the api with id
-            const response = await fetch("http://localhost:5000/api/courses/" + id);
-            // parse the json data into an array of objects
-            const json = await response.json();
+            try {
+                // fetch courses data from the api with id
+                console.log("Fetching course detail data from api...");
+                const response = await fetch("http://localhost:5000/api/courses/" + id);
+                console.log("response.status:", response.status);
 
-            // check if the data is ok
-            if (response.ok) {
-                setCourse(json);
+                // check the status of the fetch response
+                if (response.status === 200) {
+                    // 200 = OK status
+                    // parse the json data into an array of objects
+                    const responseJson = await response.json();
+                    console.log("responseJson:", responseJson);
+                    // set state for course data
+                    setCourse(responseJson);
+                } else if (response.status === 404) {
+                    // 404 = page not found
+                    // forward to /notfound route
+                    navigate("/notfound");
+                } else if (response.status === 500) {
+                    // 500 = internal sever error
+                    // forward to /error route
+                    navigate("/error");
+                } else {
+                    throw new Error();
+                }
+            } catch (error) {
+                console.log("Error when fetching course detail data from api:", error);
+                // forward to /error route
+                navigate("/error");
             }
         };
 
         fetchCourse();
-    });
+    }, [id, navigate]);
 
     // Handle the click on the "Delete Course" button
     const handleClick = async () => {

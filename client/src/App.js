@@ -31,6 +31,7 @@ function App() {
                 </Route>
                 <Route path="/forbidden" element={<Forbidden />} />
                 <Route path="/error" element={<UnhandledError />} />
+                <Route path="/noutfound" element={<NotFound />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
