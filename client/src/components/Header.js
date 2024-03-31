@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 // IMPORT (USER) CONTEXT:
 import UserContext from "../context/UserContext";
 
+// STATELESS FUNCTIONAL HEADER COMPONENT:
 const Header = () => {
     // Access User Context:
     const { authUser } = useContext(UserContext);
@@ -46,4 +47,5 @@ const Header = () => {
     );
 };
 
+// EXPORT HEADER COMPONENT:
 export default Header;

@@ -1,6 +1,8 @@
+// IMPORT REACT MODULES:
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+// STATEFUL FUNCTIONAL COURSES COMPONENT:
 const Courses = () => {
     // create state for courses data
     const [courses, setCourses] = useState(null);

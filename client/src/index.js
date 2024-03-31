@@ -2,7 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-// IMPORT CSS (css reset)
+// IMPORT CSS (css reset):
 import "./index.css";
 
 // IMPORT (APP) COMPONENT:

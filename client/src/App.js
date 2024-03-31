@@ -7,17 +7,18 @@ import "./App.css";
 // IMPORT COMPONENTS:
 import Header from "./components/Header";
 import Courses from "./components/Courses";
+import CourseDetail from "./components/CourseDetail";
 import CreateCourse from "./components/CreateCourse";
+import UpdateCourse from "./components/UpdateCourse";
 import UserSignIn from "./components/UserSignIn";
 import UserSignUp from "./components/UserSignUp";
 import UserSignOut from "./components/UserSignOut";
-import UpdateCourse from "./components/UpdateCourse";
-import CourseDetail from "./components/CourseDetail";
-import NotFound from "./components/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
+import NotFound from "./components/NotFound";
 import Forbidden from "./components/Forbidden";
 import UnhandledError from "./components/UnhandledError";
 
+// FUNCTIONAL APP COMPONENT:
 function App() {
     return (
         // Wrap whole App with BrowserRouter to use routing founctionalities
@@ -53,4 +54,5 @@ function App() {
     );
 }
 
+// EXPORT APP COMPONENT:
 export default App;
