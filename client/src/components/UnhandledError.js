@@ -1,3 +1,4 @@
+// STATELESS FUNCTIONAL UNHANDLED ERROR COMPONENT:
 const UnhandledError = () => {
     return (
         <main>
@@ -9,4 +10,5 @@ const UnhandledError = () => {
     );
 };
 
+// EXPORT UNHANDLED ERROR COMPONENT:
 export default UnhandledError;

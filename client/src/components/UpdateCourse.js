@@ -1,9 +1,15 @@
+// IMPORT REACT MODULES:
 import { useEffect, useState, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+
+// IMPORT (USER) CONTEXT:
 import UserContext from "../context/UserContext";
 
+// STATEFUL FUNCTIONAL UPDATE COURSE COMPONENT:
 const UpdateCourse = () => {
+    // access the user data from context
     const { authUser } = useContext(UserContext);
+    // invoke useNavigate hook to navigate programmatically
     const navigate = useNavigate();
 
     // create state for course data
@@ -64,7 +70,7 @@ const UpdateCourse = () => {
 
     // Handle form submission
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // prevents the default behavior of form submissions
 
         const updatedCourse = {
             userId: authUser.id,
@@ -110,7 +116,7 @@ const UpdateCourse = () => {
     };
 
     const handleCancel = (e) => {
-        e.preventDefault();
+        e.preventDefault(); // prevents the default behavior of form submissions
         navigate(`/courses/${id}`);
     };
 
@@ -187,4 +193,5 @@ const UpdateCourse = () => {
     );
 };
 
+// EXPORT UPDATE COURSE COMPONENT:
 export default UpdateCourse;

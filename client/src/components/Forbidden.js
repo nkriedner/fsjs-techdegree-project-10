@@ -1,3 +1,4 @@
+// STATELESS FUNCTIONAL FORBIDDEN COMPONENT:
 const Forbidden = () => {
     return (
         <main>
@@ -9,4 +10,5 @@ const Forbidden = () => {
     );
 };
 
+// EXPORT FORBIDDEN COMPONENT:
 export default Forbidden;

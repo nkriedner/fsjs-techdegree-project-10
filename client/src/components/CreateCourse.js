@@ -1,20 +1,27 @@
+// IMPORT REACT MODULES:
 import { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+
+// IMPORT (USER) CONTEXT:
 import UserContext from "../context/UserContext";
 
+// STATEFUL FUNCTIONAL CREATE COURSE COMPONENT:
 const CreateCourse = () => {
+    // access the user data from context
     const { authUser } = useContext(UserContext);
+    // invoke useNavigate hook to navigate programmatically
     const navigate = useNavigate();
-    // Set state for form data & errors
+    // access form data with useRef hooks
     const courseTitle = useRef(null);
     const courseDescription = useRef(null);
     const estimatedTime = useRef(null);
     const materialsNeeded = useRef(null);
+    // create state for form data & errors
     const [errors, setErrors] = useState([]);
 
     // HANDLE FORM SUBMISSION FOR CREATING A NEW COURSE:
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // prevents the default behavior of form submissions
 
         const newCourse = {
             userId: authUser.id,
@@ -70,7 +77,7 @@ const CreateCourse = () => {
     };
 
     const handleCancel = (e) => {
-        e.preventDefault();
+        e.preventDefault(); // prevents the default behavior of form submissions
         navigate("/");
     };
 
@@ -125,4 +132,5 @@ const CreateCourse = () => {
     );
 };
 
+// EXPORT CREATE COURSE COMPONENT:
 export default CreateCourse;

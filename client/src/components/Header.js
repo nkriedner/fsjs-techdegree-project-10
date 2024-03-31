@@ -7,7 +7,7 @@ import UserContext from "../context/UserContext";
 
 // STATELESS FUNCTIONAL HEADER COMPONENT:
 const Header = () => {
-    // Access User Context:
+    // access the user data from context
     const { authUser } = useContext(UserContext);
 
     return (

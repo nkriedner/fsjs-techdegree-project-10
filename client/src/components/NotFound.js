@@ -1,3 +1,4 @@
+// STATELESS FUNCTIONAL NOTFOUND COMPONENT:
 const NotFound = () => {
     return (
         <main>
@@ -9,4 +10,5 @@ const NotFound = () => {
     );
 };
 
+// EXPORT NOTFOUND COMPONENT:
 export default NotFound;

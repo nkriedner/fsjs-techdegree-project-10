@@ -1,10 +1,14 @@
+// IMPORT REACT MODULES:
 import { useEffect, useState, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Markdown from "react-markdown";
 import UserContext from "../context/UserContext";
 
+// STATEFUL FUNCTIONAL COURSE DETAIL COMPONENT:
 const CourseDetail = () => {
+    // access the user data from context
     const { authUser } = useContext(UserContext);
+    // invoke useNavigate hook to navigate programmatically
     const navigate = useNavigate();
     // create state for course data
     const [course, setCourse] = useState(null);
@@ -137,4 +141,5 @@ const CourseDetail = () => {
     );
 };
 
+// EXPORT COURSE DETAIL COMPONENT:
 export default CourseDetail;

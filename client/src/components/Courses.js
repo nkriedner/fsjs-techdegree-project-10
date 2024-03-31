@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 // STATEFUL FUNCTIONAL COURSES COMPONENT:
 const Courses = () => {
+    // invoke useNavigate hook to navigate programmatically
     const navigate = useNavigate();
     // create state for courses data
     const [courses, setCourses] = useState(null);
@@ -51,6 +52,7 @@ const Courses = () => {
             {/* {courses && console.log("courses:", courses)} */}
 
             <div className="wrap main--grid">
+                {/* Show courses once they are fetched from api */}
                 {courses &&
                     courses.map((course) => {
                         return (
@@ -80,4 +82,5 @@ const Courses = () => {
     );
 };
 
+// EXPORT COURSES COMPONENT:
 export default Courses;

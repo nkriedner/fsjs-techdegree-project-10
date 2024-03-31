@@ -1,9 +1,15 @@
+// IMPORT REACT MODULES:
 import { useContext, useRef, useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
+
+// IMPORT (USER) CONTEXT:
 import UserContext from "../context/UserContext";
 
+// STATEFUL FUNCTIONAL USER SIGNIN COMPONENT:
 const UserSignIn = () => {
+    // access the user actions from context
     const { actions } = useContext(UserContext);
+    // invoke useNavigate hook to navigate programmatically
     const navigate = useNavigate();
     const location = useLocation();
     // console.log(location);
@@ -15,7 +21,7 @@ const UserSignIn = () => {
 
     // Event Handlers
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // prevents the default behavior of form submissions
 
         let from = "/";
         if (location.state) {
@@ -44,7 +50,7 @@ const UserSignIn = () => {
     };
 
     const handleCancel = (e) => {
-        e.preventDefault();
+        e.preventDefault(); // prevents the default behavior of form submissions
         navigate("/");
     };
 
@@ -80,4 +86,5 @@ const UserSignIn = () => {
     );
 };
 
+// EXPORT USER SIGNIN COMPONENT:
 export default UserSignIn;

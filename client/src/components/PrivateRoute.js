@@ -1,8 +1,13 @@
+// IMPORT REACT MODULES:
 import { useContext } from "react";
-import UserContext from "../context/UserContext";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
+// IMPORT (USER) CONTEXT:
+import UserContext from "../context/UserContext";
+
+// STATELESS FUNCTIONAL PRIVATE ROUTE COMPONENT:
 const PrivateRoute = () => {
+    // access the user data from context
     const { authUser } = useContext(UserContext);
     const location = useLocation();
     // console.log(location);
@@ -14,4 +19,5 @@ const PrivateRoute = () => {
     }
 };
 
+// EXPORT PRIVATE ROUTE COMPONENT:
 export default PrivateRoute;
