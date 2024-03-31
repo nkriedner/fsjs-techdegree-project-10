@@ -12,6 +12,7 @@ const CreateCourse = () => {
     const materialsNeeded = useRef(null);
     const [errors, setErrors] = useState([]);
 
+    // HANDLE FORM SUBMISSION FOR CREATING A NEW COURSE:
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -35,25 +36,35 @@ const CreateCourse = () => {
         };
 
         try {
-            // POST the new course
+            // post new course data to api
+            console.log("Posting new course data to api...");
             const response = await fetch("http://localhost:5000/api/courses", fetchOptions);
+            console.log("response.status:", response.status);
 
-            console.log("New course - response.status:", response.status);
-
+            // check the status of the post fetch response
             if (response.status === 201) {
+                // 201 = OK status for post requests
                 navigate("/");
             } else if (response.status === 500) {
+                // 500 = internal sever error
+                // forward to /error route
                 navigate("/error");
             } else if (response.status === 400) {
+                // 400 = Bad request (validation error)
+                // parse the json data into an array of objects
                 const responseJson = await response.json();
+                // display the validation errors by setting the errors state
                 setErrors(responseJson.errors);
             } else if (response.status === 404) {
+                // 404 = page not found
+                // forward to /notfound route
                 navigate("/notfound");
             } else {
                 throw new Error();
             }
         } catch (error) {
-            console.log(error);
+            console.log("Error when posting new course data to api:", error);
+            // forward to /error route
             navigate("/error");
         }
     };

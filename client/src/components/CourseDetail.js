@@ -12,10 +12,10 @@ const CourseDetail = () => {
     let { id } = useParams();
 
     useEffect(() => {
-        // FUNCTION FOR FETCHING COURSE DETAIL DATA:
+        // FETCHING COURSE DETAIL DATA:
         const fetchCourse = async () => {
             try {
-                // fetch courses data from the api with id
+                // fetch course data from the api with id
                 // console.log("Fetching course detail data from api...");
                 const response = await fetch("http://localhost:5000/api/courses/" + id);
                 // console.log("response.status:", response.status);
@@ -49,22 +49,40 @@ const CourseDetail = () => {
         fetchCourse();
     }, [id, navigate]);
 
-    // Handle the click on the "Delete Course" button
+    // HANDLE 'DELETE COURSE' BUTTON CLICKS:
     const handleClick = async () => {
         const encodedCredentials = btoa(`${authUser.emailAddress}:${authUser.password}`);
 
-        const response = await fetch("http://localhost:5000/api/courses/" + id, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Basic ${encodedCredentials}`,
-            },
-        });
+        try {
+            // send delete request to api
+            console.log("Deleting course data from api...");
+            const response = await fetch("http://localhost:5000/api/courses/" + id, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Basic ${encodedCredentials}`,
+                },
+            });
+            console.log("response.status:", response.status);
 
-        // const json = await response.json();
-
-        console.log("response:", response);
-
-        // console.log("Deleted course:", course);
+            // check the status of the delete response
+            if (response.status === 204) {
+                // 204 = successful delete request
+                // forward to / route
+                navigate("/");
+            } else if (response.status === 403) {
+                // 403 = unauthorized request
+                // Forward to /forbidden
+                navigate("/forbidden");
+            } else if (response.status === 500) {
+                // 500 = internal sever error
+                // forward to /error route
+                navigate("/error");
+            }
+        } catch (error) {
+            console.log("Error when deleting course data:", error);
+            // forward to /error route
+            navigate("/error");
+        }
     };
 
     return (

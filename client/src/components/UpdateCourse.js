@@ -60,7 +60,7 @@ const UpdateCourse = () => {
         };
 
         fetchCourse();
-    }, [id, navigate]);
+    }, [id, navigate, authUser.id]);
 
     // Handle form submission
     const handleSubmit = async (e) => {

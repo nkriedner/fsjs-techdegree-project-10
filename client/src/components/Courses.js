@@ -1,27 +1,50 @@
 // IMPORT REACT MODULES:
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // STATEFUL FUNCTIONAL COURSES COMPONENT:
 const Courses = () => {
+    const navigate = useNavigate();
     // create state for courses data
     const [courses, setCourses] = useState(null);
 
     useEffect(() => {
+        // FUNCTION FOR FETCHING COURSES DATA:
         const fetchCourses = async () => {
-            // fetch courses data from the api
-            const response = await fetch("http://localhost:5000/api/courses");
-            // parse the json data into an array of objects
-            const json = await response.json();
+            try {
+                // fetch courses data from the api
+                console.log("Fetching courses data from api...");
+                const response = await fetch("http://localhost:5000/api/courses");
+                console.log("response.status:", response.status);
 
-            // check if the data is ok
-            if (response.ok) {
-                setCourses(json);
+                // check the status of the fetch response
+                if (response.status === 200) {
+                    // 200 = OK status
+                    // parse the json data into an array of objects
+                    const responseJson = await response.json();
+                    console.log("responseJson:", responseJson);
+                    // set state for courses data
+                    setCourses(responseJson);
+                } else if (response.status === 404) {
+                    // 404 = page not found
+                    // forward to /notfound route
+                    navigate("/notfound");
+                } else if (response.status === 500) {
+                    // 500 = internal sever error
+                    // forward to /error route
+                    navigate("/error");
+                } else {
+                    throw new Error();
+                }
+            } catch (error) {
+                console.log("Error when fetching courses data from api:", error);
+                // forward to /error route
+                navigate("/error");
             }
         };
 
         fetchCourses();
-    }, []);
+    }, [navigate]);
 
     return (
         <main>
