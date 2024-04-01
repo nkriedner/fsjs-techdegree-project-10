@@ -30,6 +30,10 @@ const CourseDetail = () => {
                     // parse the json data into an array of objects
                     const responseJson = await response.json();
                     // console.log("responseJson:", responseJson);
+                    // if no data exists redirect to /notfound
+                    if (responseJson === null) {
+                        navigate("/notfound");
+                    }
                     // set state for course data
                     setCourse(responseJson);
                 } else if (response.status === 404) {
@@ -97,9 +101,9 @@ const CourseDetail = () => {
                         <div className="wrap">
                             {authUser && authUser.id === course.userId && (
                                 <>
-                                    <button className="button" to={`/courses/${course.id}/update`}>
+                                    <Link className="button" to={`/courses/${course.id}/update`}>
                                         Update Course
-                                    </button>
+                                    </Link>
                                     <button className="button" to="/" onClick={handleClick}>
                                         Delete Course
                                     </button>

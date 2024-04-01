@@ -28,19 +28,23 @@ const UpdateCourse = () => {
         const fetchCourse = async () => {
             try {
                 // fetch courses data from the api with id
-                // console.log("Fetching course detail data from api for update form...");
+                console.log("Fetching course detail data from api for update form...");
                 const response = await fetch("http://localhost:5000/api/courses/" + id);
-                // console.log("response.status:", response.status);
+                console.log("response.status:", response.status);
 
                 // check the status of the fetch response
                 if (response.status === 200) {
                     // 200 = OK status
                     // parse the json data into an array of objects
                     const responseJson = await response.json();
-                    // console.log("responseJson:", responseJson);
-                    // check if authUser id is equal to course's userId
+                    console.log("responseJson:", responseJson);
                     // console.log("responseJson.userId", responseJson.userId);
-                    // console.log("authUser.id:", authUser.id);
+                    console.log("authUser.id:", authUser.id);
+                    // if no data exists redirect to /notfound
+                    if (responseJson === null) {
+                        navigate("/notfound");
+                    }
+                    // check if authUser id is equal to course's userId
                     if (authUser.id !== responseJson.userId) {
                         // navigate to forbidden route if they don't match
                         navigate("/forbidden");
@@ -151,7 +155,9 @@ const UpdateCourse = () => {
                                     ref={courseTitle}
                                 />
 
-                                <p>By Joe Smith</p>
+                                <p>
+                                    By {authUser.firstName} {authUser.lastName}
+                                </p>
 
                                 <label htmlFor="courseDescription">Course Description</label>
                                 <textarea

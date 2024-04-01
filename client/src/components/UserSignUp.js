@@ -65,12 +65,17 @@ const UserSignUp = () => {
         <main>
             <div className="form--centered">
                 <h2>Sign Up</h2>
+
+                {/* Show Validation errors if there are any */}
                 {errors.length ? (
-                    <>
-                        {errors.map((error, i) => (
-                            <div key={i}>{error}</div>
-                        ))}
-                    </>
+                    <div className="validation--errors">
+                        <h3>Validation Errors</h3>
+                        <ul>
+                            {errors.map((error, i) => (
+                                <li key={i}>{error}!</li>
+                            ))}
+                        </ul>
+                    </div>
                 ) : null}
 
                 <form onSubmit={handleSubmit}>

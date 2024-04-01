@@ -103,7 +103,9 @@ const CreateCourse = () => {
                             <label htmlFor="courseTitle">Course Title</label>
                             <input id="courseTitle" name="courseTitle" type="text" ref={courseTitle} />
 
-                            <p>By (add logged in user name)</p>
+                            <p>
+                                By {authUser.firstName} {authUser.lastName}
+                            </p>
 
                             <label htmlFor="courseDescription">Course Description</label>
                             <textarea

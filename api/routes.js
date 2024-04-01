@@ -78,6 +78,12 @@ router.get(
                 },
             ],
         });
+
+        if (!course) {
+            // If the course does not exist, send a 404 response
+            return res.status(404).json({ error: "Course not found" });
+        }
+
         res.status(200).json(course);
     })
 );
