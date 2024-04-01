@@ -97,12 +97,12 @@ const CourseDetail = () => {
                         <div className="wrap">
                             {authUser && authUser.id === course.userId && (
                                 <>
-                                    <Link className="button" to={`/courses/${course.id}/update`}>
+                                    <button className="button" to={`/courses/${course.id}/update`}>
                                         Update Course
-                                    </Link>
-                                    <Link className="button" to="/" onClick={handleClick}>
+                                    </button>
+                                    <button className="button" to="/" onClick={handleClick}>
                                         Delete Course
-                                    </Link>
+                                    </button>
                                 </>
                             )}
                             <Link className="button button-secondary" to="/">
