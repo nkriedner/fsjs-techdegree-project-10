@@ -12,15 +12,18 @@ const UserSignUp = () => {
     // invoke useNavigate hook to navigate programmatically
     const navigate = useNavigate();
 
-    // State
+    // access form data with useRef hooks
     const firstName = useRef(null);
     const lastName = useRef(null);
     const emailAddress = useRef(null);
     const password = useRef(null);
+    // create state for error messages
     const [errors, setErrors] = useState([]);
 
+    // HANDLE FORM SUBMISSION FOR SIGNING UP A NEW USER:
     const handleSubmit = async (e) => {
-        e.preventDefault(); // prevents the default behavior of form submissions
+        // prevent default behavior of form submissions
+        e.preventDefault();
         console.log("handleSubmit running...");
 
         const user = {
@@ -30,6 +33,7 @@ const UserSignUp = () => {
             password: password.current.value,
         };
 
+        // define the option parameters for the following fetch request
         const fetchOptions = {
             method: "POST",
             headers: {
@@ -56,8 +60,11 @@ const UserSignUp = () => {
         }
     };
 
+    // HANDLE 'CANCEL' BUTTON CLICKS:
     const handleCancel = (e) => {
-        e.preventDefault(); // prevents the default behavior of form submissions
+        // prevent default behavior of form submissions
+        e.preventDefault();
+        // forward to home route
         navigate("/");
     };
 
@@ -78,6 +85,7 @@ const UserSignUp = () => {
                     </div>
                 ) : null}
 
+                {/* Form fields for signing up a new user */}
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="firstName">First Name</label>
                     <input id="firstName" name="firstName" ref={firstName} type="text" />

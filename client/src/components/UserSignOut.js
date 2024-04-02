@@ -9,9 +9,9 @@ import UserContext from "../context/UserContext";
 const UserSignOut = () => {
     // access the user actions from context
     const { actions } = useContext(UserContext);
-
+    // sign out the user
     useEffect(() => actions.signOut());
-
+    // forward to home route
     return <Navigate to="/" replace />;
 };
 

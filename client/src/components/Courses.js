@@ -14,27 +14,32 @@ const Courses = () => {
         const fetchCourses = async () => {
             try {
                 // fetch courses data from the api
-                console.log("Fetching courses data from api...");
+                // console.log("Fetching courses data from api...");
                 const response = await fetch("http://localhost:5000/api/courses");
-                console.log("response.status:", response.status);
+                // console.log("response.status:", response.status);
 
                 // check the status of the fetch response
                 if (response.status === 200) {
-                    // 200 = OK status
+                    // (200 = OK status)
+
                     // parse the json data into an array of objects
                     const responseJson = await response.json();
-                    console.log("responseJson:", responseJson);
+                    // console.log("responseJson:", responseJson);
+
                     // set state for courses data
                     setCourses(responseJson);
                 } else if (response.status === 404) {
-                    // 404 = page not found
+                    // (404 = page not found)
+
                     // forward to /notfound route
                     navigate("/notfound");
                 } else if (response.status === 500) {
-                    // 500 = internal sever error
+                    // (500 = internal sever error)
+
                     // forward to /error route
                     navigate("/error");
                 } else {
+                    // (for all other errors)
                     throw new Error();
                 }
             } catch (error) {
@@ -49,8 +54,6 @@ const Courses = () => {
 
     return (
         <main>
-            {/* {courses && console.log("courses:", courses)} */}
-
             <div className="wrap main--grid">
                 {/* Show courses once they are fetched from api */}
                 {courses &&
@@ -62,6 +65,7 @@ const Courses = () => {
                             </Link>
                         );
                     })}
+
                 <Link className="course--module course--add--module" to="courses/create">
                     <span className="course--add--title">
                         <svg

@@ -11,16 +11,16 @@ const UpdateCourse = () => {
     const { authUser } = useContext(UserContext);
     // invoke useNavigate hook to navigate programmatically
     const navigate = useNavigate();
-
-    // create state for course data
+    // access form data with useRef hooks
     const courseTitle = useRef(null);
     const courseDescription = useRef(null);
     const estimatedTime = useRef(null);
     const materialsNeeded = useRef(null);
+    // create state for course data & errors
     const [course, setCourse] = useState(null);
     const [errors, setErrors] = useState([]);
 
-    // Access the parameters from the URL
+    // Access the id parameter from the URL
     let { id } = useParams();
 
     useEffect(() => {
@@ -28,23 +28,24 @@ const UpdateCourse = () => {
         const fetchCourse = async () => {
             try {
                 // fetch courses data from the api with id
-                console.log("Fetching course detail data from api for update form...");
+                // console.log("Fetching course detail data from api for update form...");
                 const response = await fetch("http://localhost:5000/api/courses/" + id);
-                console.log("response.status:", response.status);
+                // console.log("response.status:", response.status);
 
                 // check the status of the fetch response
                 if (response.status === 200) {
-                    // 200 = OK status
+                    // (200 = OK status)
+
                     // parse the json data into an array of objects
                     const responseJson = await response.json();
-                    console.log("responseJson:", responseJson);
-                    // console.log("responseJson.userId", responseJson.userId);
-                    console.log("authUser.id:", authUser.id);
+                    // console.log("responseJson:", responseJson);
+                    // console.log("authUser.id:", authUser.id);
+
                     // if no data exists redirect to /notfound
                     if (responseJson === null) {
                         navigate("/notfound");
                     }
-                    // check if authUser id is equal to course's userId
+                    // check if authUser id is not equal to course's userId (= user is not authorized)
                     if (authUser.id !== responseJson.userId) {
                         // navigate to forbidden route if they don't match
                         navigate("/forbidden");
@@ -52,14 +53,17 @@ const UpdateCourse = () => {
                     // set state for course data
                     setCourse(responseJson);
                 } else if (response.status === 404) {
-                    // 404 = page not found
+                    // (404 = page not found)
+
                     // forward to /notfound route
                     navigate("/notfound");
                 } else if (response.status === 500) {
-                    // 500 = internal sever error
+                    // (500 = internal sever error)
+
                     // forward to /error route
                     navigate("/error");
                 } else {
+                    // (for all other errors)
                     throw new Error();
                 }
             } catch (error) {
@@ -72,10 +76,11 @@ const UpdateCourse = () => {
         fetchCourse();
     }, [id, navigate, authUser.id]);
 
-    // Handle form submission
+    // HANDLE FORM SUBMISSION FOR UPDATING A COURSE:
     const handleSubmit = async (e) => {
         e.preventDefault(); // prevents the default behavior of form submissions
 
+        // set data for updated course
         const updatedCourse = {
             userId: authUser.id,
             title: courseTitle.current.value,
@@ -84,8 +89,10 @@ const UpdateCourse = () => {
             materialsNeeded: materialsNeeded.current.value,
         };
 
+        // encode user email and password into Base64 format for HTTP Basic Authentication
         const encodedCredentials = btoa(`${authUser.emailAddress}:${authUser.password}`);
 
+        // define the option parameters for the following fetch request
         const fetchOptions = {
             method: "PUT",
             body: JSON.stringify(updatedCourse),
@@ -97,30 +104,49 @@ const UpdateCourse = () => {
 
         try {
             // Update the new course
-            console.log("Updating course data...");
+            // console.log("Updating course data...");
             const response = await fetch("http://localhost:5000/api/courses/" + id, fetchOptions);
-            console.log("response.status:", response.status);
+            // console.log("response.status:", response.status);
 
+            // check the status of the post fetch response
             if (response.status === 204) {
+                // (204 = success updating data)
+
+                // forward to course detail route
                 navigate(`/courses/${id}`);
             } else if (response.status === 500) {
+                // (500 = internal sever error)
+
+                // forward to /error route
                 navigate("/error");
             } else if (response.status === 400) {
+                // (400 = Bad request / validation error)
+
+                // parse the json data into an array of objects
                 const responseJson = await response.json();
+                // display the validation errors by setting the errors state
                 setErrors(responseJson.errors);
             } else if (response.status === 404) {
+                // (404 = page not found)
+
+                // forward to /notfound route
                 navigate("/notfound");
             } else {
+                // (for all other errors)
                 throw new Error();
             }
         } catch (error) {
             console.log(error);
+            // forward to /error route
             navigate("/error");
         }
     };
 
+    // HANDLE 'CANCEL' BUTTON CLICKS:
     const handleCancel = (e) => {
-        e.preventDefault(); // prevents the default behavior of form submissions
+        // prevent default behavior of form submissions
+        e.preventDefault();
+        // forward to course detail route
         navigate(`/courses/${id}`);
     };
 
@@ -143,6 +169,7 @@ const UpdateCourse = () => {
                         </div>
                     ) : null}
 
+                    {/* Form fields for updating a new course */}
                     <form onSubmit={handleSubmit}>
                         <div className="main--flex">
                             <div>

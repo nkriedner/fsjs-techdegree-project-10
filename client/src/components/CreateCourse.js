@@ -23,6 +23,7 @@ const CreateCourse = () => {
     const handleSubmit = async (e) => {
         e.preventDefault(); // prevents the default behavior of form submissions
 
+        // set data for new course
         const newCourse = {
             userId: authUser.id,
             title: courseTitle.current.value,
@@ -31,8 +32,10 @@ const CreateCourse = () => {
             materialsNeeded: materialsNeeded.current.value,
         };
 
+        // encode user email and password into Base64 format for HTTP Basic Authentication
         const encodedCredentials = btoa(`${authUser.emailAddress}:${authUser.password}`);
 
+        // define the option parameters for the following fetch request
         const fetchOptions = {
             method: "POST",
             body: JSON.stringify(newCourse),
@@ -44,29 +47,35 @@ const CreateCourse = () => {
 
         try {
             // post new course data to api
-            console.log("Posting new course data to api...");
+            // console.log("Posting new course data to api...");
             const response = await fetch("http://localhost:5000/api/courses", fetchOptions);
-            console.log("response.status:", response.status);
+            // console.log("response.status:", response.status);
 
             // check the status of the post fetch response
             if (response.status === 201) {
-                // 201 = OK status for post requests
+                // (201 = OK status for post requests)
+
+                // forward to home route
                 navigate("/");
             } else if (response.status === 500) {
-                // 500 = internal sever error
+                // (500 = internal sever error)
+
                 // forward to /error route
                 navigate("/error");
             } else if (response.status === 400) {
-                // 400 = Bad request (validation error)
+                // (400 = Bad request / validation error)
+
                 // parse the json data into an array of objects
                 const responseJson = await response.json();
                 // display the validation errors by setting the errors state
                 setErrors(responseJson.errors);
             } else if (response.status === 404) {
-                // 404 = page not found
+                // (404 = page not found)
+
                 // forward to /notfound route
                 navigate("/notfound");
             } else {
+                // (for all other errors)
                 throw new Error();
             }
         } catch (error) {
@@ -76,8 +85,11 @@ const CreateCourse = () => {
         }
     };
 
+    // HANDLE 'CANCEL' BUTTON CLICKS:
     const handleCancel = (e) => {
-        e.preventDefault(); // prevents the default behavior of form submissions
+        // prevent default behavior of form submissions
+        e.preventDefault();
+        // forward to home route
         navigate("/");
     };
 
@@ -85,6 +97,7 @@ const CreateCourse = () => {
         <main>
             <div className="wrap">
                 <h2>Create Course</h2>
+
                 {/* Show Validation errors if there are any */}
                 {errors.length ? (
                     <div className="validation--errors">
@@ -97,6 +110,7 @@ const CreateCourse = () => {
                     </div>
                 ) : null}
 
+                {/* Form fields for creating a new course */}
                 <form onSubmit={handleSubmit}>
                     <div className="main--flex">
                         <div>

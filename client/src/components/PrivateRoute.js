@@ -9,12 +9,15 @@ import UserContext from "../context/UserContext";
 const PrivateRoute = () => {
     // access the user data from context
     const { authUser } = useContext(UserContext);
+    // invoke useLocation hook to retrieve current location from the React Router DOM
     const location = useLocation();
-    // console.log(location);
 
+    // check if there is an authenticated user
     if (authUser) {
+        // if there is -> display the nested route
         return <Outlet />;
     } else {
+        // if there is no authenticated user -> forward to /signin route
         return <Navigate to="/signin" state={{ from: location.pathname }} />;
     }
 };
