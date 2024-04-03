@@ -116,10 +116,10 @@ const CourseDetail = () => {
                             {/* Show 'Update' & 'Delete' buttons if authUser is course creator */}
                             {authUser && authUser.id === course.userId && (
                                 <>
-                                    <Link className="button" to={`/courses/${course.id}/update`}>
+                                    <Link className="button button-update" to={`/courses/${course.id}/update`}>
                                         Update Course
                                     </Link>
-                                    <button className="button" to="/" onClick={handleClick}>
+                                    <button className="button button-delete" onClick={handleClick}>
                                         Delete Course
                                     </button>
                                 </>

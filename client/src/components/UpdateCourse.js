@@ -213,7 +213,7 @@ const UpdateCourse = () => {
                                 ></textarea>
                             </div>
                         </div>
-                        <button className="button" type="submit">
+                        <button className="button button-update" type="submit">
                             Update Course
                         </button>
                         <button className="button button-secondary" onClick={handleCancel}>
